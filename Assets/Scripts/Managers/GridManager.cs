@@ -10,7 +10,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] private SpriteRenderer referenceImage;
     [SerializeField] private int gridSize = 4;
 
-    public List<Element> elements = new List<Element>();
+    private List<Element> elements = new List<Element>();
 
     public List<Element> Elements { get { return elements; } }
     public int GridSize { get { return gridSize; } }
