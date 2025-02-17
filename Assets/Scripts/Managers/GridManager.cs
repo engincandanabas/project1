@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    public GameObject framePrefab;
-    public SpriteRenderer referenceImage;
-    public int gridSize = 4;
+    public static GridManager Instance { get; private set; }
 
+    [SerializeField] private GameObject framePrefab;
+    [SerializeField] private SpriteRenderer referenceImage;
+    [SerializeField] private int gridSize = 4;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         InstantiateGridFrames();
@@ -46,5 +52,10 @@ public class GridManager : MonoBehaviour
                     1);
             }
         }
+    }
+
+    public void ReloadGridSize(int gridSize)
+    {
+
     }
 }
