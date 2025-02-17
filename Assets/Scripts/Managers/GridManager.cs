@@ -10,6 +10,8 @@ public class GridManager : MonoBehaviour
     [SerializeField] private SpriteRenderer referenceImage;
     [SerializeField] private int gridSize = 4;
 
+    public List<Element> elements = new List<Element>();
+
     private void Awake()
     {
         Instance = this;
@@ -21,7 +23,7 @@ public class GridManager : MonoBehaviour
 
     void InstantiateGridFrames()
     {
-        if (referenceImage == null || framePrefab == null || gridSize <= 0 || gridSize <= 0)
+        if (referenceImage == null || framePrefab == null || gridSize <= 0 || gridSize <= 1)
         {
             Debug.LogError("Missing reference image, frame prefab, or invalid grid values!");
             return;
@@ -39,7 +41,7 @@ public class GridManager : MonoBehaviour
         {
             for (int col = 0; col < gridSize; col++)
             {
-                GameObject frame = Instantiate(framePrefab, transform);
+                GameObject frame = Instantiate(framePrefab, referenceImage.transform);
 
                 float posX = startPosition.x + frameWidth * (col + 0.5f);
                 float posY = startPosition.y - frameHeight * (row + 0.5f);
@@ -47,15 +49,31 @@ public class GridManager : MonoBehaviour
                 frame.transform.position = new Vector3(posX, posY, 0);
 
                 frame.transform.localScale = new Vector3(
-                    frameWidth / framePrefab.GetComponent<SpriteRenderer>().bounds.size.x,
-                    frameHeight / framePrefab.GetComponent<SpriteRenderer>().bounds.size.y,
+                    (frameWidth / framePrefab.GetComponent<SpriteRenderer>().bounds.size.x)/referenceImage.transform.localScale.x,
+                    (frameHeight / framePrefab.GetComponent<SpriteRenderer>().bounds.size.y) / referenceImage.transform.localScale.y,
                     1);
+
+                var element_sc = frame.GetComponent<Element>();
+                element_sc.SetData(row, col);
+                elements.Add(element_sc);
             }
         }
     }
 
-    public void ReloadGridSize(int gridSize)
+    public void ReloadGridSize(int _gridSize)
     {
-
+        if (gridSize <= 1) return;
+        
+        DestroyAllElements();
+        gridSize = _gridSize;
+        InstantiateGridFrames();
+    }
+    private void DestroyAllElements()
+    {
+        for(int i = 0;i < referenceImage.transform.childCount; i++)
+        {
+            Destroy(referenceImage.transform.GetChild(i).gameObject);
+        }
+        elements.Clear();
     }
 }

@@ -1409,6 +1409,7 @@ MonoBehaviour:
   framePrefab: {fileID: 2469379404055925131, guid: 3dbeb8d0cb014274888cda7e51f99673, type: 3}
   referenceImage: {fileID: 55548590}
   gridSize: 4
+  elements: []
 --- !u!1 &1653933232
 GameObject:
   m_ObjectHideFlags: 0
