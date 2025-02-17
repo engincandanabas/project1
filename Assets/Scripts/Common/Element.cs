@@ -6,7 +6,25 @@ public class Element : MonoBehaviour
 {
     private ElementData data;
 
+    [SerializeField] private GameObject selectedSprite;
+    public bool isSelected=false;
 
+    private void OnMouseDown()
+    {
+        //Debug.Log(data.row + " " + data.col);
+        if (!isSelected)
+        {
+            isSelected = true;
+            selectedSprite.gameObject.SetActive(true);
+            MatchSystem.Instance.CheckMatch();
+        }
+
+    }
+    public void ResetData()
+    {
+        isSelected=false;
+        selectedSprite.gameObject.SetActive(false);
+    }
 
     public void SetData(int row,int col)
     {

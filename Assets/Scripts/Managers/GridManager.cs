@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
@@ -12,16 +12,20 @@ public class GridManager : MonoBehaviour
 
     public List<Element> elements = new List<Element>();
 
+    public List<Element> Elements { get { return elements; } }
+    public int GridSize { get { return gridSize; } }
+
     private void Awake()
     {
         Instance = this;
     }
+
     void Start()
     {
         InstantiateGridFrames();
     }
 
-    void InstantiateGridFrames()
+    private void InstantiateGridFrames()
     {
         if (referenceImage == null || framePrefab == null || gridSize <= 0 || gridSize <= 1)
         {
@@ -49,7 +53,7 @@ public class GridManager : MonoBehaviour
                 frame.transform.position = new Vector3(posX, posY, 0);
 
                 frame.transform.localScale = new Vector3(
-                    (frameWidth / framePrefab.GetComponent<SpriteRenderer>().bounds.size.x)/referenceImage.transform.localScale.x,
+                    (frameWidth / framePrefab.GetComponent<SpriteRenderer>().bounds.size.x) / referenceImage.transform.localScale.x,
                     (frameHeight / framePrefab.GetComponent<SpriteRenderer>().bounds.size.y) / referenceImage.transform.localScale.y,
                     1);
 
@@ -62,18 +66,21 @@ public class GridManager : MonoBehaviour
 
     public void ReloadGridSize(int _gridSize)
     {
-        if (gridSize <= 1) return;
-        
+        if (_gridSize <= 1) return;
+
         DestroyAllElements();
         gridSize = _gridSize;
         InstantiateGridFrames();
     }
+
     private void DestroyAllElements()
     {
-        for(int i = 0;i < referenceImage.transform.childCount; i++)
+        for (int i = 0; i < referenceImage.transform.childCount; i++)
         {
             Destroy(referenceImage.transform.GetChild(i).gameObject);
         }
         elements.Clear();
     }
+
+    
 }
