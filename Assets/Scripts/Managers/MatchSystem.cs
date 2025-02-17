@@ -55,6 +55,9 @@ public class MatchSystem : MonoBehaviour
         {
             connectedElement.ResetData();
         }
+        // Skoru artýr
+        GameManager.Instance.Score++;
+
     }
     private void DFS(Element current, List<Element> selectedElements, HashSet<Element> visited, List<Element> connectedElements)
     {

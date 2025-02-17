@@ -22,6 +22,15 @@ public class UIManager : MonoBehaviour
         reloadButton.onClick.AddListener(() => ReloadGridSize());
     }
 
+    private void OnEnable()
+    {
+        GameManager.OnScoreChanged += UpdateMatchCount;
+    }
+    private void OnDisable()
+    {
+        GameManager.OnScoreChanged -= UpdateMatchCount;
+    }
+
     public void UpdateMatchCount(int count)
     {
         matchCountText.text ="Match Count "+count.ToString();
